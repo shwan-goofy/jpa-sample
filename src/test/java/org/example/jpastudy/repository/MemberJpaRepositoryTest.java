@@ -64,4 +64,31 @@ class MemberJpaRepositoryTest {
         System.out.println("deletedCount = " + deletedCount);
     }
 
+    @Test
+    void findByUsernameAndAgeGreaterThanTest() {
+        // given
+        Member member1 = new Member();
+        member1.setUsername("memberA");
+        member1.setAge(10);
+
+        Member member2 = new Member();
+        member2.setUsername("memberA");
+        member2.setAge(20);
+
+        Member member3 = new Member();
+        member3.setUsername("memberA");
+        member3.setAge(40);
+
+        memberJpaRepository.save(member1);
+        memberJpaRepository.save(member2);
+        memberJpaRepository.save(member3);
+
+
+        // when
+        var result = memberJpaRepository.findByUsernameAndAgeGreaterThan("memberA", 15);
+
+        // then
+        System.out.println("result = " + result);
+    }
+
 }
