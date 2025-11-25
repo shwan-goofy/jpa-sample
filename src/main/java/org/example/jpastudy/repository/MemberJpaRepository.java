@@ -3,12 +3,13 @@ package org.example.jpastudy.repository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.example.jpastudy.domain.Member;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
-@Repository //
+@Component
 public class MemberJpaRepository {
     @PersistenceContext
     private EntityManager em;
@@ -38,7 +39,7 @@ public class MemberJpaRepository {
     }
 
     public List<Member> findByUsernameAndAgeGreaterThan(String username, int age) {
-        return em.createQuery("select m from Member m where m.username = :username and age > :age", Member.class)
+        return em.createQuery("select m from Member m where m.username = :username and m.age > :age", Member.class)
                 .setParameter("username", username)
                 .setParameter("age", age)
                 .getResultList();

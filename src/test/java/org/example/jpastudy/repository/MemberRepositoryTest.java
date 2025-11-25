@@ -5,6 +5,10 @@ import org.example.jpastudy.domain.Member;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+
+import java.util.List;
 
 @SpringBootTest
 @Transactional
@@ -18,13 +22,22 @@ public class MemberRepositoryTest {
         Member member = new Member();
         member.setUsername("memberA");
         member.setAge(99);
+        Member member2 = new Member();
+        member2.setUsername("memberA");
+        member2.setAge(109);
 
         // when
-        Member savedMember = memberRepository.save(member);
+        memberRepository.save(member);
+        memberRepository.save(member2);
 
         // then
-        Member foundMember = memberRepository.findById(savedMember.getId()).get();
-        System.out.println(foundMember);
+        List<Member> members = memberRepository.findByUsernameAndAgeGreaterThan("memberA", 10);
+        members.forEach(m -> {
+            m.setAge(m.getAge()+1);
+        });
+
+        List<Member> members2 = memberRepository.findByUsernameAndAgeGreaterThan("memberA", 10);
+        members2.forEach(System.out::println);
     }
 
     @Test
@@ -56,5 +69,24 @@ public class MemberRepositoryTest {
         // 단건 조회 검증
         Member foundMember = memberRepository.findById(member2.getId()).get();
         assert foundMember.getUsername().equals("member2");
+    }
+
+    @Test
+    void pagingTest() throws Exception {
+        // given
+        for (int i = 1; i <= 100; i++) {
+            memberRepository.save(new Member("member" , i));
+        }
+
+        int offset = 0;
+        int limit = 3;
+
+        // when
+        Page<Member> member = memberRepository.findByUsernameContaining("member", PageRequest.of(offset, limit));
+        member.get()
+                .forEach(System.out::println);
+
+        long count = memberRepository.count();
+        System.out.println(count);
     }
 }

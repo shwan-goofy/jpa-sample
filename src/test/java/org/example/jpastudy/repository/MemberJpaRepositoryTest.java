@@ -1,5 +1,7 @@
 package org.example.jpastudy.repository;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityTransaction;
 import jakarta.transaction.Transactional;
 import org.example.jpastudy.domain.Member;
 import org.junit.jupiter.api.Test;
@@ -11,6 +13,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 class MemberJpaRepositoryTest {
     @Autowired
     private MemberJpaRepository memberJpaRepository;
+
+    @Autowired
+    private EntityManager em;
 
     @Test
     void testMember() {
@@ -24,7 +29,7 @@ class MemberJpaRepositoryTest {
 
         // then
         Member foundMember = memberJpaRepository.findById(savedMember.getId()).get();
-        System.out.println(foundMember);
+        System.out.println(savedMember.getId());
     }
 
     @Test
@@ -89,6 +94,21 @@ class MemberJpaRepositoryTest {
 
         // then
         System.out.println("result = " + result);
+    }
+
+    @Test
+    void sample() {
+        EntityTransaction tx = em.getTransaction();
+        tx.begin();
+        try {
+           Member mb = em.find(Member.class, 1L);
+           mb.setAge(100);
+           em.persist(mb); // ??
+
+           tx.commit();
+        } catch (Exception e) {
+            tx.rollback();
+        }
     }
 
 }
