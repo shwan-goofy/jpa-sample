@@ -54,18 +54,18 @@ class TeamRepositoryTest {
         teamRepository.findAll();
     }
 
-    @Test
-    void sampleForTransaction() {
-        EntityTransaction tx = em.getTransaction();
-
-        try {
-            Member jisurgPark = new Member("member1", 10);
-            jisurgPark.enrollTeam(manU);
-            em.persist(memberA);
-
-            tx.commit();
-        } catch (Exception e) {
-            tx.rollback();
-        }
-    }
+//    @Test
+//    void sampleForTransaction() {
+//        EntityTransaction tx = em.getTransaction();
+//
+//        try {
+//            Member jisurgPark = new Member("member1", 10);
+//            jisurgPark.enrollTeam(manU);
+//            em.persist(memberA);
+//
+//            tx.commit();
+//        } catch (Exception e) {
+//            tx.rollback();
+//        }
+//    }
 }

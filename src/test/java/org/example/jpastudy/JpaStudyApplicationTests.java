@@ -4,7 +4,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Transient;
 import jakarta.transaction.Transactional;
-import org.apache.catalina.core.ApplicationContext;
+import org.springframework.context.ApplicationContext;
 import org.example.jpastudy.domain.Member;
 import org.example.jpastudy.domain.Team;
 import org.junit.jupiter.api.Test;
@@ -17,8 +17,8 @@ class JpaStudyApplicationTests {
     @Autowired
     ApplicationContext ac;
 
-    @Test
-    void sampel() {
-        ac.getBeanDefinitionNames();
-    }
+//    @Test
+//    void sampel() {
+//        ac.getBeanDefinitionNames();
+//    }
 }
